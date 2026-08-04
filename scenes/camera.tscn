@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://wb7c38wcp2qm"]
+
+[ext_resource type="Script" uid="uid://ca6weavjgn4fc" path="res://scripts/camera.gd" id="1_u5kg4"]
+[ext_resource type="Shader" uid="uid://dd5yy77dy3xx1" path="res://resources/pixelated.gdshader" id="2_diie0"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_rfgqy"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u5kg4"]
+render_priority = 0
+shader = ExtResource("2_diie0")
+shader_parameter/shadows_enabled = true
+shader_parameter/highlights_enabled = true
+shader_parameter/shadow_strength = 0.4
+shader_parameter/highlight_strength = 0.1
+shader_parameter/highlight_color = Color(1, 1, 1, 1)
+shader_parameter/shadow_color = Color(0, 0, 0, 1)
+
+[node name="Camera" type="Camera3D" unique_id=2024247279]
+fov = 30.0
+script = ExtResource("1_u5kg4")
+
+[node name="Postprocess" type="MeshInstance3D" parent="." unique_id=1886804295]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.60225314)
+mesh = SubResource("QuadMesh_rfgqy")
+surface_material_override/0 = SubResource("ShaderMaterial_u5kg4")

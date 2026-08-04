@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://dijnfvmdhe21v"]
+
+[ext_resource type="Script" uid="uid://cnb88g62qy40" path="res://scripts/spawner.gd" id="1_2vbf6"]
+[ext_resource type="PackedScene" uid="uid://d351mhsfs2tvi" path="res://scenes/stone.tscn" id="2_tx2ig"]
+[ext_resource type="PackedScene" uid="uid://b8pqloc6goawc" path="res://scenes/log.tscn" id="3_6bbd6"]
+
+[node name="Spawner" type="Node3D" unique_id=1691201300]
+script = ExtResource("1_2vbf6")
+object_scenes = Array[PackedScene]([ExtResource("2_tx2ig"), ExtResource("3_6bbd6")])
+spawn_y = 0.0

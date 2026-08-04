@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://dbx7cpbglt4jl"]
+
+[ext_resource type="Script" uid="uid://bw7bemcnsq60c" path="res://scripts/player_stone.gd" id="1_q5mt5"]
+[ext_resource type="PackedScene" uid="uid://by1rh1b78t3jk" path="res://assets/stone.fbx" id="1_xlpnj"]
+[ext_resource type="Material" uid="uid://dsirqt1qb0l6h" path="res://resources/rock_texture.tres" id="2_a7ri2"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_5rnn1"]
+height = 0.59866333
+radius = 1.4848633
+
+[node name="PlayerStone" type="Node3D" unique_id=435260567]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+script = ExtResource("1_q5mt5")
+move_speed = 1.5
+auto_hop_strength = 3.0
+dodge_jump_strength = 7.0
+
+[node name="stone" parent="." unique_id=1104702873 instance=ExtResource("1_xlpnj")]
+
+[node name="Cube" parent="stone" index="0" unique_id=1431820144]
+transform = Transform3D(109.55015, 0, 0, 0, 0, 65.14292, 0, -168.402, 0, 0, 0, 0.11433978)
+material_override = ExtResource("2_a7ri2")
+
+[node name="Hurtbox" type="Area3D" parent="." unique_id=1649638332]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox" unique_id=2079679732]
+transform = Transform3D(0.99999976, 0, 0, 0, 0.99999976, 0, 0, 0, 0.99999976, 0, 0, 0)
+shape = SubResource("CylinderShape3D_5rnn1")
+
+[editable path="stone"]

@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dsirqt1qb0l6h"]
+
+[ext_resource type="Texture2D" uid="uid://b2ahw7sfxstf4" path="res://assets/stone_texture_pixelated.png" id="1_ucyaa"]
+
+[resource]
+albedo_texture = ExtResource("1_ucyaa")
+texture_filter = 0
