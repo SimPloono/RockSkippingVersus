@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://5chyyviseq5o"]
+
+[ext_resource type="Script" uid="uid://crl276ndmkswv" path="res://scripts/audio_one_shot.gd" id="1_a744g"]
+
+[node name="AudioOneShot" type="AudioStreamPlayer" unique_id=1217741728]
+script = ExtResource("1_a744g")

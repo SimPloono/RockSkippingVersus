@@ -4,10 +4,10 @@
 [ext_resource type="Texture2D" uid="uid://dh46tur5kgqyq" path="res://assets/water_texutre.png" id="2_gee14"]
 [ext_resource type="Texture2D" uid="uid://da73m60xccubw" path="res://assets/sky_texture.png" id="3_0tnpc"]
 [ext_resource type="PackedScene" uid="uid://wb7c38wcp2qm" path="res://scenes/camera.tscn" id="4_vtaks"]
-[ext_resource type="PackedScene" uid="uid://d351mhsfs2tvi" path="res://scenes/stone.tscn" id="5_kvpfn"]
 [ext_resource type="PackedScene" uid="uid://dbx7cpbglt4jl" path="res://scenes/player_stone.tscn" id="6_dinhu"]
 [ext_resource type="PackedScene" uid="uid://dijnfvmdhe21v" path="res://scenes/spawner.tscn" id="6_gee14"]
 [ext_resource type="Shader" uid="uid://befiatrwu5dd7" path="res://resources/crt_effect.gdshader" id="7_kvuet"]
+[ext_resource type="Script" uid="uid://640qc288cqtl" path="res://scripts/label.gd" id="8_gee14"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_e2o6t"]
 render_priority = 0
@@ -25,14 +25,13 @@ shader_parameter/wave_speed = 1.0
 render_priority = 0
 shader = ExtResource("1_u5sy4")
 shader_parameter/water_texture = ExtResource("2_gee14")
-shader_parameter/scroll_speed = Vector2(0, -0.25)
+shader_parameter/scroll_speed = Vector2(0, -0.6)
 shader_parameter/uv_scale = 4.785
 shader_parameter/wave_height = 0.0
 shader_parameter/wave_frequency = 1.5
 shader_parameter/wave_speed = 1.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xhbev"]
-vertex_color_use_as_albedo = true
 albedo_texture = ExtResource("3_0tnpc")
 
 [sub_resource type="QuadMesh" id="QuadMesh_rfgqy"]
@@ -79,11 +78,12 @@ render_target_update_mode = 4
 
 [node name="Water" type="MeshInstance3D" parent="SubViewportContainer/SubViewport" unique_id=2125995652]
 transform = Transform3D(10, 0, 0, 0, 3.282, 0, 0, 0, 10, 0, 0, -12.339)
+visible = false
 material_override = SubResource("ShaderMaterial_e2o6t")
 mesh = SubResource("PlaneMesh_rfgqy")
 
 [node name="Water2" type="MeshInstance3D" parent="SubViewportContainer/SubViewport" unique_id=1984816011]
-transform = Transform3D(74.11664, 0, 0, 0, 8.141, 0, 0, 0, 68.97484, 0, 0.01, -85.349)
+transform = Transform3D(74.11664, 0, 0, 0, 8.141, 0, 0, 0, 68.97484, 0, 0.01, -71.20165)
 material_override = SubResource("ShaderMaterial_fc0e3")
 mesh = SubResource("PlaneMesh_rfgqy")
 
@@ -96,9 +96,12 @@ mesh = SubResource("QuadMesh_rfgqy")
 transform = Transform3D(1, 0, 0, 0, 0.9781476, 0.2079117, 0, -0.2079117, 0.9781476, 0, 2.09, 0)
 
 [node name="Camera" parent="SubViewportContainer/SubViewport/CameraPivot" unique_id=2024247279 instance=ExtResource("4_vtaks")]
+unique_name_in_owner = true
+shake_decay = 2.5
+max_offset = Vector3(0.2, 0.2, 0)
+max_roll = 0.15
 
 [node name="Postprocess" parent="SubViewportContainer/SubViewport/CameraPivot/Camera" index="0" unique_id=1886804295]
-transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0.0255723, -0.72256136)
 visible = false
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport" unique_id=1620708591]
@@ -107,9 +110,6 @@ transform = Transform3D(0.99666727, -0.007588608, -0.0812212, 0.08115336, 0.1933
 [node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewportContainer/SubViewport" unique_id=1563851290]
 environment = SubResource("Environment_rfgqy")
 
-[node name="Stone" parent="SubViewportContainer/SubViewport" unique_id=634753031 instance=ExtResource("5_kvpfn")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9942818, 0, -51.22229)
-
 [node name="Spawner" parent="SubViewportContainer/SubViewport" unique_id=1691201300 instance=ExtResource("6_gee14")]
 spawn_z = -150.0
 spawn_y = -0.2
@@ -117,15 +117,17 @@ min_x = -8.0
 max_x = 8.0
 spawn_interval_start = 0.4
 spawn_interval_min = 0.2
-base_move_speed = 30.0
+base_move_speed = 20.0
+speed_ramp_rate = 20.0
 move_speed_variance = 5.0
+difficulty_ramp_time = 60.0
+min_scale = 0.7
 max_scale = 1.8
 
 [node name="PlayerStone" parent="SubViewportContainer/SubViewport" unique_id=686165696 instance=ExtResource("6_dinhu")]
-transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0, 0.923, -6.3958197)
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0.923, -8.200699)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=575156734]
-visible = false
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=1281426307]
 visible = false
@@ -135,6 +137,17 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer" unique_id=611472408]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -132.0
+offset_bottom = 54.0
+grow_horizontal = 0
+text = "Test"
+vertical_alignment = 1
+script = ExtResource("8_gee14")
 
 [node name="OmniLight3D" type="AreaLight3D" parent="." unique_id=2142320480]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.9219742, 30.770615, -221.18517)

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://b4glnup34ypqi"]
+
+[ext_resource type="Script" uid="uid://ctvkbwpmucic6" path="res://scripts/hud_manager.gd" id="1_r2vra"]
+
+[node name="HudManager" type="Node" unique_id=54933233]
+script = ExtResource("1_r2vra")

@@ -1,19 +1,33 @@
 [gd_scene format=3 uid="uid://d351mhsfs2tvi"]
 
 [ext_resource type="Script" uid="uid://cgic0783yo8y8" path="res://scripts/stone.gd" id="1_6s6ed"]
+[ext_resource type="AudioStream" uid="uid://birofgis77up3" path="res://sounds/stone_clash.wav" id="2_tuldt"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_rfgqy"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tuldt"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_xdcmn"]
 
 [node name="Stone" type="Node3D" unique_id=634753031]
 script = ExtResource("1_6s6ed")
+hurt_sound = ExtResource("2_tuldt")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=118279807]
 transform = Transform3D(0.6123724, 0.6123724, -0.5, -0.70710677, 0.70710677, 0, 0.35355338, 0.35355338, 0.8660254, 0, 0, 0)
 mesh = SubResource("BoxMesh_rfgqy")
 
 [node name="Hitbox" type="Area3D" parent="MeshInstance3D" unique_id=488210168]
+collision_layer = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/Hitbox" unique_id=1481306282]
+transform = Transform3D(0.9, 1.3411025e-08, -1.3411045e-07, -1.3411045e-08, 0.9, -1.3411045e-07, 1.3411045e-07, 1.3411045e-07, 0.9, 0, 0, 0)
+shape = SubResource("BoxShape3D_tuldt")
+
+[node name="CloseDodgeHitbox" type="Area3D" parent="MeshInstance3D" unique_id=1083935240]
+visible = false
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/CloseDodgeHitbox" unique_id=930442681]
+transform = Transform3D(1.3, 0, 0, 0, 1.3, 0, 0, 0, 1.3, 0, 0, 0)
 shape = SubResource("BoxShape3D_xdcmn")

@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://ca6weavjgn4fc" path="res://scripts/camera.gd" id="1_u5kg4"]
 [ext_resource type="Shader" uid="uid://dd5yy77dy3xx1" path="res://resources/pixelated.gdshader" id="2_diie0"]
 
-[sub_resource type="QuadMesh" id="QuadMesh_rfgqy"]
+[sub_resource type="PlaneMesh" id="PlaneMesh_u5sy4"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u5kg4"]
 render_priority = 0
@@ -18,8 +18,12 @@ shader_parameter/shadow_color = Color(0, 0, 0, 1)
 [node name="Camera" type="Camera3D" unique_id=2024247279]
 fov = 30.0
 script = ExtResource("1_u5kg4")
+shake_decay = null
+max_offset = null
+max_roll = null
 
 [node name="Postprocess" type="MeshInstance3D" parent="." unique_id=1886804295]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.60225314)
-mesh = SubResource("QuadMesh_rfgqy")
+transform = Transform3D(0.405, 0, 0, 0, -1.7703112e-08, -0.405, 0, 0.405, -1.7703112e-08, 0, 0, -0.60225314)
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_u5sy4")
 surface_material_override/0 = SubResource("ShaderMaterial_u5kg4")

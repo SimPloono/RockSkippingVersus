@@ -18,35 +18,43 @@ extends Node3D
 @export var difficulty_ramp_time: float = 60.0  # seconds for spawn rate to reach its fastest, and speed reference window
 @export var min_scale: float = 0.7   # random uniform scale range for spawned objects
 @export var max_scale: float = 1.4
+
 var _run_time: float = 0.0
 var _spawn_timer: float = 0.0
 
 func _ready() -> void:
 	randomize()
 	_spawn_timer = spawn_interval_start
-	
-	
+	RunStats.spawner = self
+
 func _process(delta: float) -> void:
 	_run_time += delta
 	_spawn_timer -= delta
 	if _spawn_timer <= 0.0:
 		_spawn_object()
 		_spawn_timer = _current_spawn_interval()
+		
+func get_current_move_speed() -> float:
+	return _current_move_speed() * DifficultyManager.speed_multiplier
+	
 func _difficulty_t() -> float:
 	# 0.0 at run start, 1.0 once difficulty_ramp_time has passed (clamped - used for spawn rate only)
 	return clamp(_run_time / difficulty_ramp_time, 0.0, 1.0)
+
 func _current_spawn_interval() -> float:
 	return lerp(spawn_interval_start, spawn_interval_min, _difficulty_t())
+
 func _current_move_speed() -> float:
 	# NOT clamped - keeps climbing for as long as the run continues
 	var t := _run_time / difficulty_ramp_time
 	return base_move_speed + speed_ramp_rate * t
+
 func _spawn_object() -> void:
 	if object_scenes.is_empty():
 		push_warning("Spawner has no object_scenes assigned.")
 		return
 	var scene: PackedScene = object_scenes[randi() % object_scenes.size()]
-	var instance := scene.instantiate()
+	var instance: Obstacle = scene.instantiate()
 	get_tree().current_scene.add_child(instance)
 	var x := randf_range(min_x, max_x)
 	instance.global_position = Vector3(x, spawn_y, spawn_z)
@@ -59,3 +67,6 @@ func _spawn_object() -> void:
 	var speed := _current_move_speed() + randf_range(-move_speed_variance, move_speed_variance)
 	speed = max(speed, 0.5)  # safety floor so variance can't make an object stall or go negative
 	instance.set("move_speed", speed)
+	
+	instance.close_dodged.connect(HudManager.handle_close_dodge)
+	instance.hit_obstacle.connect(HudManager.handle_obstacle_hit)
